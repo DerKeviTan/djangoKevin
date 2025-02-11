@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4"><i class="fas fa-file-invoice-dollar"></i> Listado de Presupuestos</h2>
+    <a href="{% url 'crear_presupuesto' %}" class="btn btn-primary mb-3">
+        <i class="fas fa-plus"></i> Añadir Presupuesto
+    </a>
+
+    <table id="tabla-datos" class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Proyecto</th>
+                <th>Monto Estimado</th>
+                <th>Monto Real</th>
+                <th>Fecha de Aprobación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for presupuesto in presupuestos %}
+            <tr>
+                <td>{{ presupuesto.id }}</td>
+                <td>{{ presupuesto.proyecto.nombre }}</td>
+                <td>${{ presupuesto.monto_estimado }}</td>
+                <td>
+                    {% if presupuesto.monto_real %}
+                        ${{ presupuesto.monto_real }}
+                    {% else %}
+                        <span class="text-muted">No registrado</span>
+                    {% endif %}
+                </td>
+                <td>{{ presupuesto.fecha_aprobacion|date:"d/m/Y" }}</td>
+                <td>
+                    <a href="{% url 'editar_presupuesto' presupuesto.pk %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <a href="{% url 'eliminar_presupuesto' presupuesto.pk %}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No hay presupuestos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

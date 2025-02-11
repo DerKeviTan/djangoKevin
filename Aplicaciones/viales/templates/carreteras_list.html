@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Listado de Carreteras</h2>
+    <a href="{% url 'crear_carretera' %}" class="btn btn-primary mb-3">
+        <i class="fas fa-plus"></i> Añadir Carretera
+    </a>
+
+    <table id="tabla-datos" class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Longitud (km)</th>
+                <th>Tipo de Superficie</th>
+                <th>Proyecto Asociado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for carretera in carreteras %}
+            <tr>
+                <td>{{ carretera.id }}</td>
+                <td>{{ carretera.nombre }}</td>
+                <td>{{ carretera.longitud_km }}</td>
+                <td>{{ carretera.tipo_superficie }}</td>
+                <td>{{ carretera.proyecto.nombre }}</td>
+                <td>
+                    <a href="{% url 'editar_carretera' carretera.pk %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <a href="{% url 'eliminar_carretera' carretera.pk %}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No hay carreteras registradas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
